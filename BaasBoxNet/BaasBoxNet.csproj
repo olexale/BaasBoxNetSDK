@@ -40,6 +40,7 @@
     <Compile Include="BaasBox.cs" />
     <Compile Include="BaasBoxConfig.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Exceptions\BaasException.cs" />
     <Compile Include="IBaasBox.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
