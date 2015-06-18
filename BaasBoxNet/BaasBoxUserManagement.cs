@@ -44,7 +44,7 @@ namespace BaasBoxNet
 
         public Task LogoutAsync()
         {
-            throw new NotImplementedException();
+            return _box.RestService.PostAsync<object>("logout", null);
         }
 
         public Task ChangePasswordAsync(string oldPassword, string newPassword)

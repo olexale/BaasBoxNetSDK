@@ -20,8 +20,13 @@ namespace BaasBoxNet.Services
         {
             using (var client = GetHttpClient())
             {
-                var jsonData = JsonConvert.SerializeObject(data);
-                using (var requestBody = new StringContent(jsonData, Encoding.UTF8, "application/json"))
+                StringContent requestBody = null;
+                if (data != null)
+                {
+                    var jsonData = JsonConvert.SerializeObject(data);
+                    requestBody = new StringContent(jsonData, Encoding.UTF8, "application/json");
+                }
+                using (requestBody)
                 using (var response = await client.PostAsync(CreateRequestUrl(url), requestBody).ConfigureAwait(false))
                 {
                     response.EnsureSuccessStatusCode();
