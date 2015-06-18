@@ -35,8 +35,10 @@
 
         <!--TODO: Content should be placed within the following grid-->
         <StackPanel Grid.Row="1" Margin="19,9.5,19,0">
-            <TextBox Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="username" />
-            <TextBox Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="password" />
+            <TextBox Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     PlaceholderText="username" />
+            <TextBox Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     PlaceholderText="password" />
 
             <Button Content="login" Command="{Binding Login}" />
             <Button Content="signup" Command="{Binding Signup}" />

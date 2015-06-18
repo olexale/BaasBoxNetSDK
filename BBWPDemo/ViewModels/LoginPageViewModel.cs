@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.UI.Popups;
 using BaasBoxNet;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Mvvm;
@@ -42,14 +43,34 @@ namespace BBWPDemo.ViewModels
             get { return _signup ?? (_signup = new DelegateCommand(async () => await DoSignup())); }
         }
 
-        private Task DoLogin()
+        private async Task DoLogin()
         {
-            throw new NotImplementedException();
+            string message;
+            try
+            {
+                var user = await _boxUserManagement.LoginAsync(Username, Password);
+                message = "Login successful. Session = " + user.Session;
+            }
+            catch (Exception e)
+            {
+                message = e.Message;
+            }
+            await new MessageDialog(message).ShowAsync();
         }
 
-        private Task DoSignup()
+        private async Task DoSignup()
         {
-            throw new NotImplementedException();
+            string message;
+            try
+            {
+                var user = await _boxUserManagement.LoginAsync(Username, Password);
+                message = "Signup successful. Session = " + user.Session;
+            }
+            catch (Exception e)
+            {
+                message = e.Message;
+            }
+            await new MessageDialog(message).ShowAsync();
         }
     }
 }

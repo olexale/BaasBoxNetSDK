@@ -9,7 +9,7 @@ namespace BBWPDemo
 {
     public sealed partial class App : MvvmAppBase
     {
-        private readonly BaasBox _baasBox = new BaasBox("10.20.30.40", "1234567890");
+        private readonly BaasBox _baasBox = new BaasBox("10.211.55.8", "1234567890");
         private readonly IUnityContainer _container = new UnityContainer();
 
         public App()

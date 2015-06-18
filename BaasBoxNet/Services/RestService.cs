@@ -75,13 +75,15 @@ namespace BaasBoxNet.Services
 
         private string CreateRequestUrl(string url)
         {
-            return string.Format("{0}:{1}/{2}", _box.Config.ApiDomain, _box.Config.HttpPort, url);
+            return string.Format("http://{0}:{1}/{2}", _box.Config.ApiDomain, _box.Config.HttpPort, url);
         }
 
         private HttpClient GetHttpClient()
         {
-            var httpClient = new HttpClient {BaseAddress = new Uri(_box.Config.ApiDomain)};
-            httpClient.DefaultRequestHeaders.Add("Content-type", "application/json");
+            var httpClient = new HttpClient
+            {
+                BaseAddress = new Uri(string.Format("http://{0}:{1}", _box.Config.ApiDomain, _box.Config.HttpPort))
+            };
             httpClient.DefaultRequestHeaders.Add("X-BAASBOX-APPCODE", _box.Config.AppCode);
             if (_box.UserManagement.IsAuthenticated)
                 httpClient.DefaultRequestHeaders.Add("X-BB-SESSION", _box.User.Session);
