@@ -49,7 +49,12 @@ namespace BaasBoxNet
 
         public Task ChangePasswordAsync(string oldPassword, string newPassword)
         {
-            throw new NotImplementedException();
+            var requestBody = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("old", oldPassword),
+                new KeyValuePair<string, string>("new", newPassword)
+            });
+            return _box.RestService.PutAsync<object>("me/password", requestBody);
         }
 
         public Task ResetPasswordAsync(string username)
