@@ -16,24 +16,39 @@ namespace BaasBoxNet.Services
             _box = box;
         }
 
-        public async Task<T> PostAsync<T>(string url, object data)
+        public Task<T> PostAsync<T>(string url, object data)
         {
             using (var client = GetHttpClient())
             {
-                StringContent requestBody = null;
-                if (data != null)
-                {
-                    var jsonData = JsonConvert.SerializeObject(data);
-                    requestBody = new StringContent(jsonData, Encoding.UTF8, "application/json");
-                }
-                using (requestBody)
-                using (var response = await client.PostAsync(CreateRequestUrl(url), requestBody).ConfigureAwait(false))
-                {
-                    response.EnsureSuccessStatusCode();
-                    var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    var parsedResponse = JsonConvert.DeserializeObject<BaasBoxResponse<T>>(content);
-                    return parsedResponse.Data;
-                }
+                return MakeRestCallAsync<T>(client.PostAsync, url, data);
+            }
+        }
+
+        public Task<T> PutAsync<T>(string url, object data)
+        {
+            using (var client = GetHttpClient())
+            {
+                return MakeRestCallAsync<T>(client.PutAsync, url, data);
+            }
+        }
+
+        private async Task<T> MakeRestCallAsync<T>(Func<string, HttpContent, Task<HttpResponseMessage>> restMethod,
+            string url,
+            object data)
+        {
+            StringContent requestBody = null;
+            if (data != null)
+            {
+                var jsonData = JsonConvert.SerializeObject(data);
+                requestBody = new StringContent(jsonData, Encoding.UTF8, "application/json");
+            }
+            using (requestBody)
+            using (var response = await restMethod(CreateRequestUrl(url), requestBody).ConfigureAwait(false))
+            {
+                response.EnsureSuccessStatusCode();
+                var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                var parsedResponse = JsonConvert.DeserializeObject<BaasBoxResponse<T>>(content);
+                return parsedResponse.Data;
             }
         }
 
