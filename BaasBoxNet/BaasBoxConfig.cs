@@ -9,7 +9,6 @@
         {
             HttpPort = 9000;
             ApiDomain = "10.0.2.2";
-            ApiBasepath = "/";
             AppCode = "1234567890";
         }
 
@@ -27,10 +26,5 @@
         ///     The BaasBox app code, default is <code>1234567890</code>.
         /// </summary>
         public string AppCode { get; set; }
-
-        /// <summary>
-        ///     The relative path of the server, default is <code>/</code>.
-        /// </summary>
-        public string ApiBasepath { get; set; }
     }
 }

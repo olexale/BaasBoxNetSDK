@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using BaasBoxNet.Models;
@@ -38,8 +39,9 @@ namespace BaasBoxNet.Services
 
         private HttpClient GetHttpClient()
         {
-            var httpClient = new HttpClient();
-            if (_box.User != null && !string.IsNullOrWhiteSpace(_box.User.Session))
+            var httpClient = new HttpClient {BaseAddress = new Uri(_box.Config.ApiDomain)};
+            httpClient.DefaultRequestHeaders.Add("Content-type", "application/json");
+            if (_box.UserManagement.IsAuthenticated)
                 httpClient.DefaultRequestHeaders.Add("X-BAASBOX-APPCODE", _box.User.Session);
             return httpClient;
         }
