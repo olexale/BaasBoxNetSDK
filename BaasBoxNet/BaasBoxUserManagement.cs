@@ -33,7 +33,13 @@ namespace BaasBoxNet
 
         public Task<BaasUser> LoginAsync(string username, string password)
         {
-            throw new NotImplementedException();
+            var requestBody = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("username", username),
+                new KeyValuePair<string, string>("password", password),
+                new KeyValuePair<string, string>("appcode", _box.Config.AppCode)
+            });
+            return _box.RestService.PostAsync<BaasUser>("login", requestBody);
         }
 
         public Task LogoutAsync()

@@ -21,7 +21,7 @@ namespace BaasBoxNet.Services
             using (var client = GetHttpClient())
             {
                 var jsonData = JsonConvert.SerializeObject(data);
-                var requestBody = new StringContent(jsonData, Encoding.UTF8, "application/json");
+                using (var requestBody = new StringContent(jsonData, Encoding.UTF8, "application/json"))
                 using (var response = await client.PostAsync(CreateRequestUrl(url), requestBody).ConfigureAwait(false))
                 {
                     response.EnsureSuccessStatusCode();
@@ -41,8 +41,9 @@ namespace BaasBoxNet.Services
         {
             var httpClient = new HttpClient {BaseAddress = new Uri(_box.Config.ApiDomain)};
             httpClient.DefaultRequestHeaders.Add("Content-type", "application/json");
+            httpClient.DefaultRequestHeaders.Add("X-BAASBOX-APPCODE", _box.Config.AppCode);
             if (_box.UserManagement.IsAuthenticated)
-                httpClient.DefaultRequestHeaders.Add("X-BAASBOX-APPCODE", _box.User.Session);
+                httpClient.DefaultRequestHeaders.Add("X-BB-SESSION", _box.User.Session);
             return httpClient;
         }
     }
