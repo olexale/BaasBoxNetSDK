@@ -1,12 +1,10 @@
-﻿using System;
+﻿using BaasBoxNet.Models;
+using BaasBoxNet.Services;
 
 namespace BaasBoxNet
 {
     public sealed class BaasBox
     {
-        private static BaasBox _defaultClient;
-        private readonly BaasBoxConfig _config;
-
         /// <summary>
         ///     BaasBox simplified constructor
         /// </summary>
@@ -23,28 +21,17 @@ namespace BaasBoxNet
         /// <param name="config"></param>
         public BaasBox(BaasBoxConfig config)
         {
-            _config = config;
-            UserManagement = new BaasUserManagement();
+            Config = config;
+            UserManagement = new BaasBoxUserManagement(this);
+            RestService = new RestService(this);
         }
 
-        public BaasUserManagement UserManagement { get; private set; }
+        public BaasUser User { get; set; }
 
-        /// <summary>
-        ///     BaasBox instance for this device
-        /// </summary>
-        public static BaasBox Default
-        {
-            get { return _defaultClient; }
-        }
+        public BaasBoxConfig Config { get; private set; }
 
-        internal static BaasBox DefaultChecked
-        {
-            get
-            {
-                if (_defaultClient == null)
-                    throw new InvalidOperationException("Trying to use implicit client, but no default initialized");
-                return _defaultClient;
-            }
-        }
+        public IBaasBoxUserManagement UserManagement { get; private set; }
+
+        internal RestService RestService { get; private set; }
     }
 }
