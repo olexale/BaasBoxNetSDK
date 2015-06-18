@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using BaasBoxNet.Models;
 using Newtonsoft.Json;
@@ -16,36 +17,38 @@ namespace BaasBoxNet.Services
             _box = box;
         }
 
-        public async Task<T> GetAsync<T>(string url)
+        public async Task<T> GetAsync<T>(string url, CancellationToken cancellationToken)
         {
             using (var client = GetHttpClient())
             {
-                using (var response = await client.GetAsync(url).ConfigureAwait(false))
+                using (var response = await client.GetAsync(url, cancellationToken).ConfigureAwait(false))
                 {
                     return await ProcessResponse<T>(response);
                 }
             }
         }
 
-        public Task<T> PostAsync<T>(string url, object data)
+        public Task<T> PostAsync<T>(string url, object data, CancellationToken cancellationToken)
         {
             using (var client = GetHttpClient())
             {
-                return MakeRestCallAsync<T>(client.PostAsync, url, data);
+                return MakeRestCallAsync<T>(client.PostAsync, url, data, cancellationToken);
             }
         }
 
-        public Task<T> PutAsync<T>(string url, object data)
+        public Task<T> PutAsync<T>(string url, object data, CancellationToken cancellationToken)
         {
             using (var client = GetHttpClient())
             {
-                return MakeRestCallAsync<T>(client.PutAsync, url, data);
+                return MakeRestCallAsync<T>(client.PutAsync, url, data, cancellationToken);
             }
         }
 
-        private async Task<T> MakeRestCallAsync<T>(Func<string, HttpContent, Task<HttpResponseMessage>> restMethod,
+        private async Task<T> MakeRestCallAsync<T>(
+            Func<string, HttpContent, CancellationToken, Task<HttpResponseMessage>> restMethod,
             string url,
-            object data)
+            object data,
+            CancellationToken cancellationToken)
         {
             StringContent requestBody = null;
             if (data != null)
@@ -54,7 +57,9 @@ namespace BaasBoxNet.Services
                 requestBody = new StringContent(jsonData, Encoding.UTF8, "application/json");
             }
             using (requestBody)
-            using (var response = await restMethod(CreateRequestUrl(url), requestBody).ConfigureAwait(false))
+            using (
+                var response =
+                    await restMethod(CreateRequestUrl(url), requestBody, cancellationToken).ConfigureAwait(false))
             {
                 return await ProcessResponse<T>(response).ConfigureAwait(false);
             }
