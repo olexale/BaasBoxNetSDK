@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using BaasBoxNet.Models;
@@ -59,7 +58,8 @@ namespace BaasBoxNet
 
         public Task ResetPasswordAsync(string username)
         {
-            throw new NotImplementedException();
+            var requestUrl = string.Format("user/{0}/password/reset", username);
+            return _box.RestService.GetAsync<object>(requestUrl);
         }
     }
 }

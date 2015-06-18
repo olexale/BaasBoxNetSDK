@@ -16,6 +16,17 @@ namespace BaasBoxNet.Services
             _box = box;
         }
 
+        public async Task<T> GetAsync<T>(string url)
+        {
+            using (var client = GetHttpClient())
+            {
+                using (var response = await client.GetAsync(url).ConfigureAwait(false))
+                {
+                    return await ProcessResponse<T>(response);
+                }
+            }
+        }
+
         public Task<T> PostAsync<T>(string url, object data)
         {
             using (var client = GetHttpClient())
@@ -45,11 +56,16 @@ namespace BaasBoxNet.Services
             using (requestBody)
             using (var response = await restMethod(CreateRequestUrl(url), requestBody).ConfigureAwait(false))
             {
-                response.EnsureSuccessStatusCode();
-                var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                var parsedResponse = JsonConvert.DeserializeObject<BaasBoxResponse<T>>(content);
-                return parsedResponse.Data;
+                return await ProcessResponse<T>(response).ConfigureAwait(false);
             }
+        }
+
+        private async Task<T> ProcessResponse<T>(HttpResponseMessage response)
+        {
+            response.EnsureSuccessStatusCode();
+            var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            var parsedResponse = JsonConvert.DeserializeObject<BaasBoxResponse<T>>(content);
+            return parsedResponse.Data;
         }
 
         private string CreateRequestUrl(string url)
