@@ -3,6 +3,9 @@ using BaasBoxNet.Services;
 
 namespace BaasBoxNet
 {
+    /// <summary>
+    ///     BaasBox .Net SDK "God object"
+    /// </summary>
     public sealed class BaasBox
     {
         /// <summary>
