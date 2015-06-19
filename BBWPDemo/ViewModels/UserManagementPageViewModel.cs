@@ -93,6 +93,7 @@ namespace BBWPDemo.ViewModels
             {
                 await _userManagement.ChangePasswordAsync(OldPassword, NewPassword);
                 await new MessageDialog("done").ShowAsync();
+                _navigationService.Navigate(Experiences.Login.ToString(), null);
             }
             catch (Exception e)
             {
