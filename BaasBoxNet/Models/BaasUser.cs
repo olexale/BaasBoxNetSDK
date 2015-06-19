@@ -13,7 +13,7 @@ namespace BaasBoxNet.Models
         public string Status { get; set; }
 
         [JsonProperty("roles")]
-        public IEnumerable<KeyValuePair<string, string>> Roles { get; set; }
+        public IEnumerable<Dictionary<string, string>> Roles { get; set; }
 
         [JsonProperty("signUpDate")]
         public DateTime SignupDate { get; set; }
