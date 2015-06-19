@@ -43,10 +43,10 @@
     <Compile Include="BaasBoxUserManagement.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Exceptions\BaasApiException.cs" />
-    <Compile Include="Exceptions\BaasClientException.cs" />
     <Compile Include="Exceptions\BaasException.cs" />
     <Compile Include="IBaasBoxUserManagement.cs" />
     <Compile Include="Models\BaasBoxResponse.cs" />
+    <Compile Include="Models\BaasServerError.cs" />
     <Compile Include="Models\BaasUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\RestService.cs" />

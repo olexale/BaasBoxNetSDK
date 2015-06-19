@@ -63,7 +63,7 @@ namespace BBWPDemo.ViewModels
             string message;
             try
             {
-                var user = await _boxUserManagement.LoginAsync(Username, Password);
+                var user = await _boxUserManagement.SignupAsync(Username, Password);
                 message = "Signup successful. Session = " + user.Session;
             }
             catch (Exception e)

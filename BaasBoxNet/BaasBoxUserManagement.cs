@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using BaasBoxNet.Models;
+using Newtonsoft.Json;
 
 namespace BaasBoxNet
 {
@@ -48,23 +50,26 @@ namespace BaasBoxNet
 
         public Task<BaasUser> SignupAsync(string username, string password, CancellationToken cancellationToken)
         {
-            var requestBody = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>
+            var requestBody = new Dictionary<string, string>
             {
-                new KeyValuePair<string, string>("username", username),
-                new KeyValuePair<string, string>("password", password)
-            });
-            return _box.RestService.PostAsync<BaasUser>("user", requestBody, cancellationToken);
+                {"username", username},
+                {"password", password}
+            };
+            var jsonData = JsonConvert.SerializeObject(requestBody);
+            var data = new StringContent(jsonData, Encoding.UTF8, "application/json");
+            return _box.RestService.PostAsync<BaasUser>("user", data, cancellationToken);
         }
 
         public Task<BaasUser> LoginAsync(string username, string password, CancellationToken cancellationToken)
         {
-            var requestBody = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>
+            var requestBody = new Dictionary<string, string>
             {
-                new KeyValuePair<string, string>("username", username),
-                new KeyValuePair<string, string>("password", password),
-                new KeyValuePair<string, string>("appcode", _box.Config.AppCode)
-            });
-            return _box.RestService.PostAsync<BaasUser>("login", requestBody, cancellationToken);
+                {"username", username},
+                {"password", password},
+                {"appcode", _box.Config.AppCode}
+            };
+            var request = new FormUrlEncodedContent(requestBody);
+            return _box.RestService.PostAsync<BaasUser>("login", request, cancellationToken);
         }
 
         public Task LogoutAsync(CancellationToken cancellationToken)
@@ -74,10 +79,10 @@ namespace BaasBoxNet
 
         public Task ChangePasswordAsync(string oldPassword, string newPassword, CancellationToken cancellationToken)
         {
-            var requestBody = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>
+            var requestBody = new FormUrlEncodedContent(new Dictionary<string, string>
             {
-                new KeyValuePair<string, string>("old", oldPassword),
-                new KeyValuePair<string, string>("new", newPassword)
+                {"old", oldPassword},
+                {"new", newPassword}
             });
             return _box.RestService.PutAsync<object>("me/password", requestBody, cancellationToken);
         }

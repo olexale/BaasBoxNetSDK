@@ -7,11 +7,10 @@
     /// </summary>
     public class BaasApiException : BaasException
     {
-        public BaasApiException(int code, int httpStatus, string resource, string method, string apiVersion,
+        public BaasApiException(int httpStatus, string resource, string method, string apiVersion,
             string detailMessage)
             : base(detailMessage)
         {
-            Code = code;
             HttpStatus = httpStatus;
             Resource = resource;
             Method = method;
@@ -22,6 +21,5 @@
         public string Resource { get; private set; }
         public string Method { get; private set; }
         public string ApiVersion { get; private set; }
-        public int Code { get; private set; }
     }
 }

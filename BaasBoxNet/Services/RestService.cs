@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Net.Http;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using BaasBoxNet.Exceptions;
 using BaasBoxNet.Models;
 using Newtonsoft.Json;
 
@@ -28,21 +28,14 @@ namespace BaasBoxNet.Services
             }
         }
 
-        public async Task<T> PostAsync<T>(string url, object data, CancellationToken cancellationToken)
+        public async Task<T> PostAsync<T>(string url, HttpContent data, CancellationToken cancellationToken)
         {
             using (var client = GetHttpClient())
             {
-                StringContent requestBody = null;
-                if (data != null)
-                {
-                    var jsonData = JsonConvert.SerializeObject(data);
-                    requestBody = new StringContent(jsonData, Encoding.UTF8, "application/json");
-                }
-                using (requestBody)
                 using (
                     var response =
                         await
-                            client.PostAsync(CreateRequestUrl(url), requestBody, cancellationToken)
+                            client.PostAsync(CreateRequestUrl(url), data, cancellationToken)
                                 .ConfigureAwait(false))
                 {
                     return await ProcessResponse<T>(response).ConfigureAwait(false);
@@ -50,21 +43,14 @@ namespace BaasBoxNet.Services
             }
         }
 
-        public async Task<T> PutAsync<T>(string url, object data, CancellationToken cancellationToken)
+        public async Task<T> PutAsync<T>(string url, HttpContent data, CancellationToken cancellationToken)
         {
             using (var client = GetHttpClient())
             {
-                StringContent requestBody = null;
-                if (data != null)
-                {
-                    var jsonData = JsonConvert.SerializeObject(data);
-                    requestBody = new StringContent(jsonData, Encoding.UTF8, "application/json");
-                }
-                using (requestBody)
                 using (
                     var response =
                         await
-                            client.PutAsync(CreateRequestUrl(url), requestBody, cancellationToken).ConfigureAwait(false)
+                            client.PutAsync(CreateRequestUrl(url), data, cancellationToken).ConfigureAwait(false)
                     )
                 {
                     return await ProcessResponse<T>(response).ConfigureAwait(false);
@@ -74,10 +60,15 @@ namespace BaasBoxNet.Services
 
         private async Task<T> ProcessResponse<T>(HttpResponseMessage response)
         {
-            response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            var parsedResponse = JsonConvert.DeserializeObject<BaasBoxResponse<T>>(content);
-            return parsedResponse.Data;
+            if (response.IsSuccessStatusCode)
+            {
+                var parsedResponse = JsonConvert.DeserializeObject<BaasBoxResponse<T>>(content);
+                return parsedResponse.Data;
+            }
+            var serverError = JsonConvert.DeserializeObject<BaasServerError>(content);
+            throw new BaasApiException((int) response.StatusCode, serverError.Resource, serverError.Method,
+                serverError.ApiVersion, serverError.Message);
         }
 
         private string CreateRequestUrl(string url)
