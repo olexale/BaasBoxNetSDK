@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
@@ -57,9 +58,16 @@ namespace BaasBoxNet
             };
             var jsonData = JsonConvert.SerializeObject(requestBody);
             var data = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var user = await _box.RestService.PostAsync<BaasUser>("user", data, cancellationToken);
-            _box.User = user;
-            return user;
+            var user = await _box.RestService.PostAsync<LoginResponse>("user", data, cancellationToken);
+            _box.User = new BaasUser
+            {
+                Name = user.User.Name,
+                Roles = user.User.Roles,
+                Session = user.Session,
+                SignupDate = user.SignupDate,
+                Status = user.User.Status
+            };
+            return _box.User;
         }
 
         public async Task<BaasUser> LoginAsync(string username, string password, CancellationToken cancellationToken)
@@ -71,9 +79,16 @@ namespace BaasBoxNet
                 {"appcode", _box.Config.AppCode}
             };
             var request = new FormUrlEncodedContent(requestBody);
-            var user = await _box.RestService.PostAsync<BaasUser>("login", request, cancellationToken);
-            _box.User = user;
-            return user;
+            var user = await _box.RestService.PostAsync<LoginResponse>("login", request, cancellationToken);
+            _box.User = new BaasUser
+            {
+                Name = user.User.Name,
+                Roles = user.User.Roles,
+                Session = user.Session,
+                SignupDate = user.SignupDate,
+                Status = user.User.Status
+            };
+            return _box.User;
         }
 
         public async Task LogoutAsync(CancellationToken cancellationToken)
@@ -98,6 +113,18 @@ namespace BaasBoxNet
         {
             var requestUrl = string.Format("user/{0}/password/reset", username);
             return _box.RestService.GetAsync<object>(requestUrl, cancellationToken);
+        }
+
+        private class LoginResponse
+        {
+            [JsonProperty("signUpDate")]
+            public DateTime SignupDate { get; set; }
+
+            [JsonProperty("X-BB-SESSION")]
+            public string Session { get; set; }
+
+            [JsonProperty("user")]
+            public BaasUser User { get; set; }
         }
     }
 }
