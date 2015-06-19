@@ -28,40 +28,47 @@ namespace BaasBoxNet.Services
             }
         }
 
-        public Task<T> PostAsync<T>(string url, object data, CancellationToken cancellationToken)
+        public async Task<T> PostAsync<T>(string url, object data, CancellationToken cancellationToken)
         {
             using (var client = GetHttpClient())
             {
-                return MakeRestCallAsync<T>(client.PostAsync, url, data, cancellationToken);
+                StringContent requestBody = null;
+                if (data != null)
+                {
+                    var jsonData = JsonConvert.SerializeObject(data);
+                    requestBody = new StringContent(jsonData, Encoding.UTF8, "application/json");
+                }
+                using (requestBody)
+                using (
+                    var response =
+                        await
+                            client.PostAsync(CreateRequestUrl(url), requestBody, cancellationToken)
+                                .ConfigureAwait(false))
+                {
+                    return await ProcessResponse<T>(response).ConfigureAwait(false);
+                }
             }
         }
 
-        public Task<T> PutAsync<T>(string url, object data, CancellationToken cancellationToken)
+        public async Task<T> PutAsync<T>(string url, object data, CancellationToken cancellationToken)
         {
             using (var client = GetHttpClient())
             {
-                return MakeRestCallAsync<T>(client.PutAsync, url, data, cancellationToken);
-            }
-        }
-
-        private async Task<T> MakeRestCallAsync<T>(
-            Func<string, HttpContent, CancellationToken, Task<HttpResponseMessage>> restMethod,
-            string url,
-            object data,
-            CancellationToken cancellationToken)
-        {
-            StringContent requestBody = null;
-            if (data != null)
-            {
-                var jsonData = JsonConvert.SerializeObject(data);
-                requestBody = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            }
-            using (requestBody)
-            using (
-                var response =
-                    await restMethod(CreateRequestUrl(url), requestBody, cancellationToken).ConfigureAwait(false))
-            {
-                return await ProcessResponse<T>(response).ConfigureAwait(false);
+                StringContent requestBody = null;
+                if (data != null)
+                {
+                    var jsonData = JsonConvert.SerializeObject(data);
+                    requestBody = new StringContent(jsonData, Encoding.UTF8, "application/json");
+                }
+                using (requestBody)
+                using (
+                    var response =
+                        await
+                            client.PutAsync(CreateRequestUrl(url), requestBody, cancellationToken).ConfigureAwait(false)
+                    )
+                {
+                    return await ProcessResponse<T>(response).ConfigureAwait(false);
+                }
             }
         }
 
