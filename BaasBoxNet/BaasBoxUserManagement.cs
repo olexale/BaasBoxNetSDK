@@ -48,7 +48,7 @@ namespace BaasBoxNet
             return ResetPasswordAsync(username, CancellationToken.None);
         }
 
-        public Task<BaasUser> SignupAsync(string username, string password, CancellationToken cancellationToken)
+        public async Task<BaasUser> SignupAsync(string username, string password, CancellationToken cancellationToken)
         {
             var requestBody = new Dictionary<string, string>
             {
@@ -57,10 +57,12 @@ namespace BaasBoxNet
             };
             var jsonData = JsonConvert.SerializeObject(requestBody);
             var data = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            return _box.RestService.PostAsync<BaasUser>("user", data, cancellationToken);
+            var user = await _box.RestService.PostAsync<BaasUser>("user", data, cancellationToken);
+            _box.User = user;
+            return user;
         }
 
-        public Task<BaasUser> LoginAsync(string username, string password, CancellationToken cancellationToken)
+        public async Task<BaasUser> LoginAsync(string username, string password, CancellationToken cancellationToken)
         {
             var requestBody = new Dictionary<string, string>
             {
@@ -69,12 +71,15 @@ namespace BaasBoxNet
                 {"appcode", _box.Config.AppCode}
             };
             var request = new FormUrlEncodedContent(requestBody);
-            return _box.RestService.PostAsync<BaasUser>("login", request, cancellationToken);
+            var user = await _box.RestService.PostAsync<BaasUser>("login", request, cancellationToken);
+            _box.User = user;
+            return user;
         }
 
-        public Task LogoutAsync(CancellationToken cancellationToken)
+        public async Task LogoutAsync(CancellationToken cancellationToken)
         {
-            return _box.RestService.PostAsync<object>("logout", null, cancellationToken);
+            await _box.RestService.PostAsync<object>("logout", null, cancellationToken);
+            _box.User.Session = string.Empty;
         }
 
         public Task ChangePasswordAsync(string oldPassword, string newPassword, CancellationToken cancellationToken)
