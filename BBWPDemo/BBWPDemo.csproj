@@ -84,12 +84,18 @@
     </Compile>
     <Compile Include="Controls\PageBase.cs" />
     <Compile Include="DesignTime\DesignLoginPageViewModel.cs" />
+    <Compile Include="DesignTime\DesignUserManagementPageViewModel.cs" />
     <Compile Include="Experiences.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\ILoginPageViewModel.cs" />
+    <Compile Include="ViewModels\IUserManagementPageViewModel.cs" />
     <Compile Include="ViewModels\LoginPageViewModel.cs" />
+    <Compile Include="ViewModels\UserManagementPageViewModel.cs" />
     <Compile Include="Views\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserManagementPage.xaml.cs">
+      <DependentUpon>UserManagementPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -153,6 +159,10 @@
   <ItemGroup />
   <ItemGroup>
     <Page Include="Views\LoginPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserManagementPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

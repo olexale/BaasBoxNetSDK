@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using BaasBoxNet.Exceptions;
@@ -82,6 +83,7 @@ namespace BaasBoxNet.Services
             {
                 BaseAddress = new Uri(string.Format("http://{0}:{1}", _box.Config.ApiDomain, _box.Config.HttpPort))
             };
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             httpClient.DefaultRequestHeaders.Add("X-BAASBOX-APPCODE", _box.Config.AppCode);
             if (_box.UserManagement.IsAuthenticated)
                 httpClient.DefaultRequestHeaders.Add("X-BB-SESSION", _box.User.Session);

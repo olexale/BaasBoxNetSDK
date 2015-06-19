@@ -5,19 +5,22 @@ using Windows.UI.Popups;
 using BaasBoxNet;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Mvvm;
+using Microsoft.Practices.Prism.Mvvm.Interfaces;
 
 namespace BBWPDemo.ViewModels
 {
     internal class LoginPageViewModel : ViewModel, ILoginPageViewModel
     {
         private readonly IBaasBoxUserManagement _boxUserManagement;
+        private readonly INavigationService _navigationService;
         private ICommand _login;
         private string _password;
         private ICommand _signup;
         private string _username;
 
-        public LoginPageViewModel(IBaasBoxUserManagement boxUserManagement)
+        public LoginPageViewModel(INavigationService navigationService, IBaasBoxUserManagement boxUserManagement)
         {
+            _navigationService = navigationService;
             _boxUserManagement = boxUserManagement;
         }
 
@@ -45,32 +48,28 @@ namespace BBWPDemo.ViewModels
 
         private async Task DoLogin()
         {
-            string message;
             try
             {
-                var user = await _boxUserManagement.LoginAsync(Username, Password);
-                message = "Login successful. Session = " + user.Session;
+                await _boxUserManagement.LoginAsync(Username, Password);
+                _navigationService.Navigate(Experiences.UserManagement.ToString(), null);
             }
             catch (Exception e)
             {
-                message = e.Message;
+                new MessageDialog(e.Message).ShowAsync();
             }
-            await new MessageDialog(message).ShowAsync();
         }
 
         private async Task DoSignup()
         {
-            string message;
             try
             {
-                var user = await _boxUserManagement.SignupAsync(Username, Password);
-                message = "Signup successful. Session = " + user.Session;
+                await _boxUserManagement.SignupAsync(Username, Password);
+                _navigationService.Navigate(Experiences.UserManagement.ToString(), null);
             }
             catch (Exception e)
             {
-                message = e.Message;
+                new MessageDialog(e.Message).ShowAsync();
             }
-            await new MessageDialog(message).ShowAsync();
         }
     }
 }

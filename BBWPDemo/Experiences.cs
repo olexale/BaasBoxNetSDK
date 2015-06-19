@@ -2,6 +2,7 @@
 {
     internal enum Experiences
     {
-        Login
+        Login,
+        UserManagement
     }
 }

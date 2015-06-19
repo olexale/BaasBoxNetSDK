@@ -1,5 +1,5 @@
 ﻿<controls:PageBase
-    x:Class="BBWPDemo.Views.LoginPage"
+    x:Class="BBWPDemo.Views.UserManagementPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:BBWPDemo.Views"
@@ -10,7 +10,7 @@
     xmlns:designTime="using:BBWPDemo.DesignTime"
     mc:Ignorable="d"
     mvvm:ViewModelLocator.AutoWireViewModel="True"
-    d:DataContext="{d:DesignInstance designTime:DesignLoginPageViewModel, IsDesignTimeCreatable=True}"
+    d:DataContext="{d:DesignInstance designTime:DesignUserManagementPageViewModel, IsDesignTimeCreatable=True}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
@@ -29,19 +29,21 @@
         <!-- Title Panel -->
         <StackPanel Grid.Row="0" Margin="19,0,0,0">
             <TextBlock Text="BAASBOX .NET SDK SAMPLE" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0" />
-            <TextBlock Text="login" Margin="0,-6.5,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}"
+            <TextBlock Text="user management" Margin="0,-6.5,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}"
                        CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}" />
         </StackPanel>
 
         <!--TODO: Content should be placed within the following grid-->
         <StackPanel Grid.Row="1" Margin="19,9.5,19,0">
-            <TextBox Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     PlaceholderText="username" />
-            <PasswordBox Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         PlaceholderText="password" />
+            <TextBox Text="{Binding OldPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     PlaceholderText="old password" />
+            <TextBox Text="{Binding NewPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     PlaceholderText="new password" />
 
-            <Button Content="login" Command="{Binding Login}" />
-            <Button Content="signup" Command="{Binding Signup}" />
+
+            <Button Content="change password" Command="{Binding ChangePassword}" />
+            <Button Content="reset password" Command="{Binding ResetPassword}" />
+            <Button Content="logout" Command="{Binding Logout}" />
 
         </StackPanel>
     </Grid>

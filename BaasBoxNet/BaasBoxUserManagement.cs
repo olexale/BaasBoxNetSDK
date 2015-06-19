@@ -84,12 +84,14 @@ namespace BaasBoxNet
 
         public Task ChangePasswordAsync(string oldPassword, string newPassword, CancellationToken cancellationToken)
         {
-            var requestBody = new FormUrlEncodedContent(new Dictionary<string, string>
+            var requestBody = new Dictionary<string, string>
             {
                 {"old", oldPassword},
                 {"new", newPassword}
-            });
-            return _box.RestService.PutAsync<object>("me/password", requestBody, cancellationToken);
+            };
+            var jsonData = JsonConvert.SerializeObject(requestBody);
+            var data = new StringContent(jsonData, Encoding.UTF8, "application/json");
+            return _box.RestService.PutAsync<object>("me/password", data, cancellationToken);
         }
 
         public Task ResetPasswordAsync(string username, CancellationToken cancellationToken)
