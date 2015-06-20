@@ -7,11 +7,12 @@ BaasBox .Net SDK targets: Windows 8, Windows Phone 8.1, Windows Phone Silverligh
 
 # BaasBox .Net SDK
 This SDK is still under development. At this moment we have:
+
 1. User management (registration, login, change/reset password, logout)
 2. Collection management (create, delete)
 3. Documents management (create, retrieve, search, modify, delete)
 
-There is a big bunch of functionality is left (social, push notifications, files, etc), so feel free to make request, report issues or even better - to contribute to this project.
+There is a big bunch of functionality is missing (social, push notifications, files, etc), so feel free to make request, report issues or even better - to contribute to this project.
 
 # How to use
 1. Add a reference to BaasBoxNet project
