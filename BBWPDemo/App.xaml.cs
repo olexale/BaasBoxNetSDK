@@ -30,6 +30,7 @@ namespace BBWPDemo
             _container.RegisterInstance(_baasBox);
             _container.RegisterInstance(_baasBox.UserManagement);
             _container.RegisterInstance(_baasBox.Collections);
+            _container.RegisterInstance(_baasBox.Documents);
             return base.OnInitializeAsync(args);
         }
 
