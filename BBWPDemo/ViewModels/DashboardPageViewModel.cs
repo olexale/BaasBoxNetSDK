@@ -8,6 +8,7 @@ namespace BBWPDemo.ViewModels
     internal class DashboardPageViewModel : ViewModel, IDashboardPageViewModel
     {
         private readonly INavigationService _navigationService;
+        private ICommand _openCollections;
         private ICommand _openUserManagement;
 
         public DashboardPageViewModel(INavigationService navigationService)
@@ -19,10 +20,17 @@ namespace BBWPDemo.ViewModels
         {
             get
             {
-                return _openUserManagement ??
-                       (_openUserManagement =
-                           new DelegateCommand(
-                               () => _navigationService.Navigate(Experiences.UserManagement.ToString(), null)));
+                return _openUserManagement ?? (_openUserManagement = new DelegateCommand(
+                    () => _navigationService.Navigate(Experiences.UserManagement.ToString(), null)));
+            }
+        }
+
+        public ICommand OpenCollections
+        {
+            get
+            {
+                return _openCollections ?? (_openCollections = new DelegateCommand(
+                    () => _navigationService.Navigate(Experiences.Collections.ToString(), null)));
             }
         }
     }

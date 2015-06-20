@@ -6,5 +6,6 @@ namespace BBWPDemo.DesignTime
     internal class DesignDashboardPageViewModel : IDashboardPageViewModel
     {
         public ICommand OpenUserManagement { get; private set; }
+        public ICommand OpenCollections { get; private set; }
     }
 }

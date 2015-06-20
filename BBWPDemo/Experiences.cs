@@ -4,6 +4,7 @@
     {
         Login,
         Dashboard,
-        UserManagement
+        UserManagement,
+        Collections
     }
 }

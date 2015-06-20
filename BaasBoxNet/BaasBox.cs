@@ -27,7 +27,7 @@ namespace BaasBoxNet
             Config = config;
             UserManagement = new BaasBoxUserManagement(this);
             RestService = new RestService(this);
-            BaasBoxCollections = new BaasBoxCollections(this);
+            Collections = new BaasBoxCollections(this);
         }
 
         public BaasUser User { get; set; }
@@ -36,7 +36,7 @@ namespace BaasBoxNet
 
         public IBaasBoxUserManagement UserManagement { get; private set; }
 
-        public IBaasBoxCollections BaasBoxCollections { get; private set; }
+        public IBaasBoxCollections Collections { get; private set; }
 
         internal RestService RestService { get; private set; }
     }

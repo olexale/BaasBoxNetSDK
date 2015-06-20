@@ -1,5 +1,5 @@
 ﻿<controls:PageBase
-    x:Class="BBWPDemo.Views.DashboardPage"
+    x:Class="BBWPDemo.Views.CollectionsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:BBWPDemo.Views"
@@ -10,7 +10,7 @@
     xmlns:designTime="using:BBWPDemo.DesignTime"
     mc:Ignorable="d"
     mvvm:ViewModelLocator.AutoWireViewModel="True"
-    d:DataContext="{d:DesignInstance designTime:DesignDashboardPageViewModel, IsDesignTimeCreatable=True}"
+    d:DataContext="{d:DesignInstance designTime:DesignCollectionsPageViewModel, IsDesignTimeCreatable=True}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
@@ -29,14 +29,17 @@
         <!-- Title Panel -->
         <StackPanel Grid.Row="0" Margin="19,0,0,0">
             <TextBlock Text="BAASBOX .NET SDK SAMPLE" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0" />
-            <TextBlock Text="dashboard" Margin="0,-6.5,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}"
+            <TextBlock Text="collections" Margin="0,-6.5,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}"
                        CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}" />
         </StackPanel>
 
         <!--TODO: Content should be placed within the following grid-->
         <StackPanel Grid.Row="1" Margin="19,9.5,19,0">
-            <Button Content="user management" Command="{Binding OpenUserManagement}" />
-            <Button Content="collections" Command="{Binding OpenCollections}" />
+            <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     PlaceholderText="name" />
+
+            <Button Content="create" Command="{Binding Create}" />
+            <Button Content="delete" Command="{Binding Delete}" />
         </StackPanel>
     </Grid>
 </controls:PageBase>

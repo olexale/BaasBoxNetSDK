@@ -83,17 +83,23 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\PageBase.cs" />
+    <Compile Include="DesignTime\DesignCollectionsPageViewModel.cs" />
     <Compile Include="DesignTime\DesignDashboardPageViewModel.cs" />
     <Compile Include="DesignTime\DesignLoginPageViewModel.cs" />
     <Compile Include="DesignTime\DesignUserManagementPageViewModel.cs" />
     <Compile Include="Experiences.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\CollectionsPageViewModel.cs" />
     <Compile Include="ViewModels\DashboardPageViewModel.cs" />
+    <Compile Include="ViewModels\ICollectionsPageViewModel.cs" />
     <Compile Include="ViewModels\IDashboardPageViewModel.cs" />
     <Compile Include="ViewModels\ILoginPageViewModel.cs" />
     <Compile Include="ViewModels\IUserManagementPageViewModel.cs" />
     <Compile Include="ViewModels\LoginPageViewModel.cs" />
     <Compile Include="ViewModels\UserManagementPageViewModel.cs" />
+    <Compile Include="Views\CollectionsPage.xaml.cs">
+      <DependentUpon>CollectionsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DashboardPage.xaml.cs">
       <DependentUpon>DashboardPage.xaml</DependentUpon>
     </Compile>
@@ -164,6 +170,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Page Include="Views\CollectionsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\DashboardPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

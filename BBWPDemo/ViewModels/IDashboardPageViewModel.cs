@@ -2,8 +2,9 @@
 
 namespace BBWPDemo.ViewModels
 {
-    interface IDashboardPageViewModel
+    internal interface IDashboardPageViewModel
     {
         ICommand OpenUserManagement { get; }
+        ICommand OpenCollections { get; }
     }
 }

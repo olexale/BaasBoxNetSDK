@@ -29,6 +29,7 @@ namespace BBWPDemo
             _container.RegisterInstance(NavigationService);
             _container.RegisterInstance(_baasBox);
             _container.RegisterInstance(_baasBox.UserManagement);
+            _container.RegisterInstance(_baasBox.Collections);
             return base.OnInitializeAsync(args);
         }
 
