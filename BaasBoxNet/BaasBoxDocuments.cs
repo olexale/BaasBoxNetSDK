@@ -69,7 +69,8 @@ namespace BaasBoxNet
         public Task<T> RetrieveAsync<T>(string collection, string id, CancellationToken cancellationToken)
             where T : BaasDocument
         {
-            throw new NotImplementedException();
+            var requestUrl = string.Format("document/{0}/{1}", collection, id);
+            return _box.RestService.GetAsync<T>(requestUrl, cancellationToken);
         }
 
         public Task<IEnumerable<T>> RetrieveByQueryAsync<T>(string collection, string query,
