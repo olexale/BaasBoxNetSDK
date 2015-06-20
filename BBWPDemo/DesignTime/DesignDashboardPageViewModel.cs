@@ -7,5 +7,6 @@ namespace BBWPDemo.DesignTime
     {
         public ICommand OpenUserManagement { get; private set; }
         public ICommand OpenCollections { get; private set; }
+        public ICommand OpenDocument { get; private set; }
     }
 }

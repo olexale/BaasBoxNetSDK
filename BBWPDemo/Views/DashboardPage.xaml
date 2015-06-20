@@ -37,6 +37,7 @@
         <StackPanel Grid.Row="1" Margin="19,9.5,19,0">
             <Button Content="user management" Command="{Binding OpenUserManagement}" />
             <Button Content="collections" Command="{Binding OpenCollections}" />
+            <Button Content="documents" Command="{Binding OpenDocument}" />
         </StackPanel>
     </Grid>
 </controls:PageBase>

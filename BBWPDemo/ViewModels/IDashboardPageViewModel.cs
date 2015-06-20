@@ -6,5 +6,6 @@ namespace BBWPDemo.ViewModels
     {
         ICommand OpenUserManagement { get; }
         ICommand OpenCollections { get; }
+        ICommand OpenDocument { get; }
     }
 }

@@ -5,6 +5,7 @@
         Login,
         Dashboard,
         UserManagement,
-        Collections
+        Collections,
+        Documents
     }
 }

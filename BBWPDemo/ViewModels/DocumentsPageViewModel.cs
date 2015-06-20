@@ -11,10 +11,10 @@ namespace BBWPDemo.ViewModels
     {
         private readonly IBaasBoxDocuments _documents;
         private string _collection;
-        private string _name;
         private ICommand _create;
-        private ICommand _modify;
         private ICommand _delete;
+        private ICommand _modify;
+        private string _name;
 
         public DocumentsPageViewModel(IBaasBoxDocuments documents)
         {
@@ -38,24 +38,24 @@ namespace BBWPDemo.ViewModels
             get { return _create ?? (_create = new DelegateCommand(async () => await DoCreate())); }
         }
 
-        private Task DoCreate()
-        {
-            throw new System.NotImplementedException();
-        }
-
         public ICommand Modify
         {
             get { return _modify ?? (_modify = new DelegateCommand(async () => await DoModify())); }
         }
 
-        private Task DoModify()
-        {
-            throw new System.NotImplementedException();
-        }
-
         public ICommand Delete
         {
             get { return _delete ?? (_delete = new DelegateCommand(async () => await DoDelete())); }
+        }
+
+        private Task DoCreate()
+        {
+            throw new NotImplementedException();
+        }
+
+        private Task DoModify()
+        {
+            throw new NotImplementedException();
         }
 
         private Task DoDelete()

@@ -9,6 +9,7 @@ namespace BBWPDemo.ViewModels
     {
         private readonly INavigationService _navigationService;
         private ICommand _openCollections;
+        private ICommand _openDocument;
         private ICommand _openUserManagement;
 
         public DashboardPageViewModel(INavigationService navigationService)
@@ -31,6 +32,15 @@ namespace BBWPDemo.ViewModels
             {
                 return _openCollections ?? (_openCollections = new DelegateCommand(
                     () => _navigationService.Navigate(Experiences.Collections.ToString(), null)));
+            }
+        }
+
+        public ICommand OpenDocument
+        {
+            get
+            {
+                return _openDocument ?? (_openDocument = new DelegateCommand(
+                    () => _navigationService.Navigate(Experiences.Documents.ToString(), null)));
             }
         }
     }
