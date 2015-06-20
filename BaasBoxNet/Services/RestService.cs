@@ -59,6 +59,21 @@ namespace BaasBoxNet.Services
             }
         }
 
+        public async Task DeleteAsync(string url, CancellationToken cancellationToken)
+        {
+            using (var client = GetHttpClient())
+            {
+                using (
+                    var response =
+                        await
+                            client.DeleteAsync(CreateRequestUrl(url), cancellationToken).ConfigureAwait(false)
+                    )
+                {
+                    await ProcessResponse<object>(response).ConfigureAwait(false);
+                }
+            }
+        }
+
         private async Task<T> ProcessResponse<T>(HttpResponseMessage response)
         {
             var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
