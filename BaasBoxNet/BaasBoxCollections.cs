@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 namespace BaasBoxNet
@@ -31,7 +30,8 @@ namespace BaasBoxNet
 
         public Task DeleteCollectionAsync(string name, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var request = string.Format("admin/collection/{0}", name);
+            return _box.RestService.DeleteAsync(request, cancellationToken);
         }
     }
 }
