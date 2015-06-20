@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
@@ -80,19 +79,27 @@ namespace BaasBoxNet
             return _box.RestService.GetAsync<IEnumerable<T>>(requestUrl, cancellationToken);
         }
 
-        public Task<int> CountAsync(string collection, CancellationToken cancellationToken)
+        public async Task<int> CountAsync(string collection, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var requestUrl = string.Format("document/{0}/count", collection);
+            var response = await _box.RestService.GetAsync<CountResponse>(requestUrl, cancellationToken);
+            return response.Count;
         }
 
         public Task<T> ModifyAsync<T>(T document, CancellationToken cancellationToken) where T : BaasDocument
         {
-            throw new NotImplementedException();
+            var requestBody = GetDocumentCustomPropertiesDictionary(document);
+            var jsonData = JsonConvert.SerializeObject(requestBody);
+            var data = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+            var requestUrl = string.Format("document/{0}/{1}", document.BaasDocumentClass, document.BaasDocumentId);
+            return _box.RestService.PutAsync<T>(requestUrl, data, cancellationToken);
         }
 
         public Task DeleteAsync(string collection, string id, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var requestUrl = string.Format("document/{0}/{1}", collection, id);
+            return _box.RestService.DeleteAsync(requestUrl, cancellationToken);
         }
 
         private Dictionary<string, string> GetDocumentCustomPropertiesDictionary<T>(T document) where T : BaasDocument
@@ -100,6 +107,12 @@ namespace BaasBoxNet
             return typeof (T).GetRuntimeProperties()
                 .Where(p => _baasDocumentProperties.All(b => b != p.Name) && p.CanRead)
                 .ToDictionary(property => property.Name, property => property.GetValue(document).ToString());
+        }
+
+        private class CountResponse
+        {
+            [JsonProperty("count")]
+            public int Count { get; set; }
         }
     }
 }
