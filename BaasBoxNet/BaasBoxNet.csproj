@@ -39,11 +39,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaasBox.cs" />
+    <Compile Include="BaasBoxCollections.cs" />
     <Compile Include="BaasBoxConfig.cs" />
     <Compile Include="BaasBoxUserManagement.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Exceptions\BaasApiException.cs" />
     <Compile Include="Exceptions\BaasException.cs" />
+    <Compile Include="IBaasBoxCollections.cs" />
     <Compile Include="IBaasBoxUserManagement.cs" />
     <Compile Include="Models\BaasBoxResponse.cs" />
     <Compile Include="Models\BaasServerError.cs" />
