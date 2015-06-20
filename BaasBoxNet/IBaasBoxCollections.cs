@@ -5,10 +5,10 @@ namespace BaasBoxNet
 {
     public interface IBaasBoxCollections
     {
-        Task CreateCollectionAsync(string name);
-        Task DeleteCollectionAsync(string name);
+        Task CreateAsync(string name);
+        Task DeleteAsync(string name);
 
-        Task CreateCollectionAsync(string name, CancellationToken cancellationToken);
-        Task DeleteCollectionAsync(string name, CancellationToken cancellationToken);
+        Task CreateAsync(string name, CancellationToken cancellationToken);
+        Task DeleteAsync(string name, CancellationToken cancellationToken);
     }
 }

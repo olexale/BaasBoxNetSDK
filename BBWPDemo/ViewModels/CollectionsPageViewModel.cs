@@ -40,7 +40,7 @@ namespace BBWPDemo.ViewModels
         {
             try
             {
-                await _collections.CreateCollectionAsync(Name);
+                await _collections.CreateAsync(Name);
                 await new MessageDialog("done").ShowAsync();
             }
             catch (Exception e)
@@ -53,7 +53,7 @@ namespace BBWPDemo.ViewModels
         {
             try
             {
-                await _collections.DeleteCollectionAsync(Name);
+                await _collections.DeleteAsync(Name);
                 await new MessageDialog("done").ShowAsync();
             }
             catch (Exception e)

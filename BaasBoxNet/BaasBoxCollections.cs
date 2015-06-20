@@ -12,23 +12,23 @@ namespace BaasBoxNet
             _box = box;
         }
 
-        public Task CreateCollectionAsync(string name)
+        public Task CreateAsync(string name)
         {
-            return CreateCollectionAsync(name, CancellationToken.None);
+            return CreateAsync(name, CancellationToken.None);
         }
 
-        public Task DeleteCollectionAsync(string name)
+        public Task DeleteAsync(string name)
         {
-            return DeleteCollectionAsync(name, CancellationToken.None);
+            return DeleteAsync(name, CancellationToken.None);
         }
 
-        public Task CreateCollectionAsync(string name, CancellationToken cancellationToken)
+        public Task CreateAsync(string name, CancellationToken cancellationToken)
         {
             var request = string.Format("admin/collection/{0}", name);
             return _box.RestService.PostAsync<object>(request, null, cancellationToken);
         }
 
-        public Task DeleteCollectionAsync(string name, CancellationToken cancellationToken)
+        public Task DeleteAsync(string name, CancellationToken cancellationToken)
         {
             var request = string.Format("admin/collection/{0}", name);
             return _box.RestService.DeleteAsync(request, cancellationToken);

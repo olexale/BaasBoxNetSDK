@@ -41,13 +41,16 @@
     <Compile Include="BaasBox.cs" />
     <Compile Include="BaasBoxCollections.cs" />
     <Compile Include="BaasBoxConfig.cs" />
+    <Compile Include="BaasBoxDocuments.cs" />
     <Compile Include="BaasBoxUserManagement.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Exceptions\BaasApiException.cs" />
     <Compile Include="Exceptions\BaasException.cs" />
     <Compile Include="IBaasBoxCollections.cs" />
+    <Compile Include="IBaasBoxDocuments.cs" />
     <Compile Include="IBaasBoxUserManagement.cs" />
     <Compile Include="Models\BaasBoxResponse.cs" />
+    <Compile Include="Models\BaasDocument.cs" />
     <Compile Include="Models\BaasServerError.cs" />
     <Compile Include="Models\BaasUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
