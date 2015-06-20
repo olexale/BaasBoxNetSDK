@@ -13,6 +13,7 @@ namespace BBWPDemo.ViewModels
     {
         private readonly IBaasBoxDocuments _documents;
         private string _collection;
+        private Contact _contact;
         private ICommand _create;
         private ICommand _delete;
         private ICommand _modify;
@@ -55,8 +56,8 @@ namespace BBWPDemo.ViewModels
             try
             {
                 var d = new Contact {BaasDocumentClass = Collection, Name = Name};
-                var document = await _documents.CreateAsync(d);
-                await new MessageDialog("Document created! Id = " + document.BaasDocumentId).ShowAsync();
+                _contact = await _documents.CreateAsync(d);
+                await new MessageDialog("Document created! Id = " + _contact.BaasDocumentId).ShowAsync();
             }
             catch (Exception e)
             {
@@ -64,14 +65,44 @@ namespace BBWPDemo.ViewModels
             }
         }
 
-        private Task DoModify()
+        private async Task DoModify()
         {
-            throw new NotImplementedException();
+            if (_contact == null)
+            {
+                await new MessageDialog("Create document first").ShowAsync();
+                return;
+            }
+
+            try
+            {
+                _contact.Name = Name;
+                _contact = await _documents.ModifyAsync(_contact);
+                await new MessageDialog("Document modified! Id = " + _contact.BaasDocumentId).ShowAsync();
+            }
+            catch (Exception e)
+            {
+                new MessageDialog(e.Message).ShowAsync();
+            }
         }
 
-        private Task DoDelete()
+        private async Task DoDelete()
         {
-            throw new NotImplementedException();
+            if (_contact == null)
+            {
+                await new MessageDialog("Create document first").ShowAsync();
+                return;
+            }
+
+            try
+            {
+                await _documents.DeleteAsync(_contact.BaasDocumentClass, _contact.BaasDocumentId);
+                _contact = null;
+                await new MessageDialog("Document deleted!").ShowAsync();
+            }
+            catch (Exception e)
+            {
+                new MessageDialog(e.Message).ShowAsync();
+            }
         }
     }
 }
