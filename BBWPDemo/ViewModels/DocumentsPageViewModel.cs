@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.UI.Popups;
 using BaasBoxNet;
+using BBWPDemo.Models;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Mvvm;
 
@@ -48,9 +50,18 @@ namespace BBWPDemo.ViewModels
             get { return _delete ?? (_delete = new DelegateCommand(async () => await DoDelete())); }
         }
 
-        private Task DoCreate()
+        private async Task DoCreate()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var d = new Contact {BaasDocumentClass = Collection, Name = Name};
+                var document = await _documents.CreateAsync(d);
+                await new MessageDialog("Document created! Id = " + document.BaasDocumentId).ShowAsync();
+            }
+            catch (Exception e)
+            {
+                new MessageDialog(e.Message).ShowAsync();
+            }
         }
 
         private Task DoModify()
