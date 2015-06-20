@@ -3,6 +3,7 @@
     internal enum Experiences
     {
         Login,
+        Dashboard,
         UserManagement
     }
 }

@@ -51,7 +51,7 @@ namespace BBWPDemo.ViewModels
             try
             {
                 await _boxUserManagement.LoginAsync(Username, Password);
-                _navigationService.Navigate(Experiences.UserManagement.ToString(), null);
+                _navigationService.Navigate(Experiences.Dashboard.ToString(), null);
             }
             catch (Exception e)
             {
@@ -64,7 +64,7 @@ namespace BBWPDemo.ViewModels
             try
             {
                 await _boxUserManagement.SignupAsync(Username, Password);
-                _navigationService.Navigate(Experiences.UserManagement.ToString(), null);
+                _navigationService.Navigate(Experiences.Dashboard.ToString(), null);
             }
             catch (Exception e)
             {
