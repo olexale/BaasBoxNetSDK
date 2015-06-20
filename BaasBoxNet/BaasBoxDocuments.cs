@@ -5,8 +5,15 @@ using BaasBoxNet.Models;
 
 namespace BaasBoxNet
 {
-    public class BaasBoxDocuments : IBaasBoxDocuments
+    internal class BaasBoxDocuments : IBaasBoxDocuments
     {
+        private readonly BaasBox _box;
+
+        public BaasBoxDocuments(BaasBox box)
+        {
+            _box = box;
+        }
+
         public Task<T> CreateAsync<T>(T document) where T : BaasDocument
         {
             return CreateAsync(document, CancellationToken.None);

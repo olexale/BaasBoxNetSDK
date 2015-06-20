@@ -4,7 +4,7 @@ using BaasBoxNet.Services;
 namespace BaasBoxNet
 {
     /// <summary>
-    ///     BaasBox .Net SDK "God object"
+    ///     BaasBox .Net SDK client
     /// </summary>
     public sealed class BaasBox
     {
@@ -28,6 +28,7 @@ namespace BaasBoxNet
             UserManagement = new BaasBoxUserManagement(this);
             RestService = new RestService(this);
             Collections = new BaasBoxCollections(this);
+            Documents = new BaasBoxDocuments(this);
         }
 
         public BaasUser User { get; set; }
@@ -37,6 +38,8 @@ namespace BaasBoxNet
         public IBaasBoxUserManagement UserManagement { get; private set; }
 
         public IBaasBoxCollections Collections { get; private set; }
+
+        public IBaasBoxDocuments Documents { get; private set; }
 
         internal RestService RestService { get; private set; }
     }

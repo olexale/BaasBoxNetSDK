@@ -1,0 +1,50 @@
+﻿<controls:PageBase
+    x:Class="BBWPDemo.Views.DocumentsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:BBWPDemo.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:BBWPDemo.Controls"
+    xmlns:mvvm="using:Microsoft.Practices.Prism.Mvvm"
+    xmlns:designTime="using:BBWPDemo.DesignTime"
+    mc:Ignorable="d"
+    mvvm:ViewModelLocator.AutoWireViewModel="True"
+    d:DataContext="{d:DesignInstance designTime:DesignDocumentsPageViewModel, IsDesignTimeCreatable=True}"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition />
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Title Panel -->
+        <StackPanel Grid.Row="0" Margin="19,0,0,0">
+            <TextBlock Text="BAASBOX .NET SDK SAMPLE" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0" />
+            <TextBlock Text="document" Margin="0,-6.5,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}"
+                       CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}" />
+        </StackPanel>
+
+        <!--TODO: Content should be placed within the following grid-->
+        <StackPanel Grid.Row="1" Margin="19,9.5,19,0">
+            <TextBox Text="{Binding Collection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     PlaceholderText="collection" />
+            <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     PlaceholderText="anything" />
+
+
+            <Button Content="create" Command="{Binding Create}" />
+            <Button Content="modify" Command="{Binding Modify}" />
+            <Button Content="delete" Command="{Binding Delete}" />
+
+        </StackPanel>
+    </Grid>
+</controls:PageBase>
