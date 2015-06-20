@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace BaasBoxNet
 {
-    public class BaasBoxCollections : IBaasBoxCollections
+    internal class BaasBoxCollections : IBaasBoxCollections
     {
         private readonly BaasBox _box;
 

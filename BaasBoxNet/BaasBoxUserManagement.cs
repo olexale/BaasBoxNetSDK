@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace BaasBoxNet
 {
-    public sealed class BaasBoxUserManagement
+    internal class BaasBoxUserManagement
         : IBaasBoxUserManagement
     {
         private readonly BaasBox _box;
