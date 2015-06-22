@@ -20,7 +20,7 @@ There is a big bunch of functionality missing (social, push notifications, files
 3. Use it! At first you need to signup or login with your user. This can be done with `BaasBox.UserManagement.SignupAsync` or `BaasBox.UserManagement.LoginAsync`.<br />***Hint:*** register instances of `IBaasBoxUserManagement`, `IBaasBoxCollections` and `IBaasBoxDocuments` in your DI container and use them instead of direct call to BaasBox client object.
 4. Create first collection. <br />`await box.Collections.CreateAsync(CollectionName);`
 5. Create class that inherits from `BaasDocument`. Create default constructor and set `BaasDocumentClass` property to your collection name.
-6. Create instance of your `BaasDocument` object and put it into cloud via <br />`await box.Documents.CreateAsync(CollectionName);`
+6. Create instance of your `BaasDocument` object and put it into cloud via <br />`await box.Documents.CreateAsync(myObject);`
 
 Please refer to `BBWPDemo` project. It is a simple Windows Phone application which just shows how to use basic SDK functionality.
 
